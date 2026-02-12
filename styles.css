@@ -204,7 +204,7 @@ nav .hero-section {
   position: absolute;
   bottom: -100px;
   width: 100%;
-  padding: 10px;
+  padding: 12px 44px 12px 12px;
   color: #000000;
   font-size: 18px;
   font-family:
@@ -213,7 +213,10 @@ nav .hero-section {
   /* border-radius: 18px; */
   box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
   opacity: 0;
-  transition: all 0.6s ease;
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 0.45s ease;
+  transform: translateY(12px);
   font-size: 14px;
   z-index: 100;
 }
@@ -226,4 +229,52 @@ nav .hero-section {
 .notification.exit {
   bottom: 100px;
   opacity: 0;
+}
+
+/* Close / dismiss button for notifications */
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #ffffffee;
+  color: #111;
+  font-size: 18px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    background-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.06);
+  background: #ffffff;
+}
+
+.close-btn:active {
+  transform: scale(0.98);
+}
+
+.close-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(11, 60, 73, 0.14),
+    0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notification,
+  .close-btn {
+    transition: none !important;
+  }
 }
