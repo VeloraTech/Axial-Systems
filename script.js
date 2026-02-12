@@ -46,24 +46,69 @@ function animate() {
 }
 
 animate();
+
 document.addEventListener("DOMContentLoaded", function () {
-  const notifications = document.querySelectorAll(".notification");
+  let notifications = Array.from(document.querySelectorAll(".notification"));
   let index = 0;
+  let rotationTimer = null;
+
+  function cleanupClasses() {
+    notifications.forEach((n) => n.classList.remove("active", "exit"));
+  }
 
   function showNotification() {
+    if (!notifications.length) return;
+    cleanupClasses();
+    if (index >= notifications.length) index = 0;
+
     const current = notifications[index];
     current.classList.add("active");
 
-    setTimeout(() => {
+    clearTimeout(rotationTimer);
+    rotationTimer = setTimeout(() => {
       current.classList.remove("active");
       current.classList.add("exit");
 
-      setTimeout(() => {
+      rotationTimer = setTimeout(() => {
         current.classList.remove("exit");
-        index = (index + 1) % notifications.length;
-        showNotification();
+        // If element still exists, keep it; else it was removed by user.
+        if (notifications.length) {
+          index = (index + 1) % notifications.length;
+          showNotification();
+        }
       }, 600);
     }, 2500);
   }
+
+  // Close button handling
+  function removeNotificationElement(el) {
+    const removeIdx = notifications.indexOf(el);
+    if (removeIdx === -1) return;
+
+    // Animate exit then remove from DOM and array
+    el.classList.remove("active");
+    el.classList.add("exit");
+
+    setTimeout(() => {
+      if (el.parentNode) el.parentNode.removeChild(el);
+      // remove from array
+      notifications.splice(removeIdx, 1);
+      // adjust index
+      if (removeIdx < index) index = Math.max(0, index - 1);
+      if (index >= notifications.length) index = 0;
+      // restart rotation
+      clearTimeout(rotationTimer);
+      showNotification();
+    }, 300);
+  }
+
+  document.querySelectorAll(".close-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const parent = e.currentTarget.closest(".notification");
+      if (!parent) return;
+      removeNotificationElement(parent);
+    });
+  });
+
   showNotification();
 });
