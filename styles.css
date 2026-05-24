@@ -1,5 +1,11 @@
 :root {
   --bg-color: #fdfaf3;
+  --ui-font:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+  --display-font:
+    "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
   --item-width: 250px;
   --item-height: 350px;
   scroll-behavior: smooth;
@@ -14,6 +20,7 @@ body {
   /* transform: translateX(49px); */
   /* background: linear-gradient(#222, #000); */
   background: linear-gradient(#fdfaf3, #fdfaf3, #222) no-repeat no-repeat;
+  font-family: var(--ui-font);
 }
 
 .bg {
@@ -459,18 +466,44 @@ a {
   /* margin-top: 50vh; */
   height: 100vh;
   position: relative;
+  color: #e8f6f1;
+  background: linear-gradient(180deg, #071414 0%, #05221d 100%);
+  /* blackish green */
+  border-bottom-left-radius: 90px;
+  border-bottom-right-radius: 90px;
+  transition:
+    border-bottom-left-radius 0.6s ease,
+    border-bottom-right-radius 0.6s ease;
 }
 
 .journey-intro-text {
+  font-family: var(--ui-font);
+  padding-top: 2vh;
+  padding-left: 4vw;
+  margin-bottom: 18vh;
+  align-content: center;
+  justify-content: center;
+  text-align: left;
+  height: 50vh;
+}
+
+.journey-intro-text h1 {
+  font-size: 32px;
+  font-weight: 700;
   font-family:
     "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
     Arial, sans-serif;
-  padding-top: 30vh;
-  align-self: center;
-  justify-self: center;
-  height: 50vh;
-  font-size: 32px;
-  font-weight: 700;
+}
+
+.journey-intro-text p {
+  font-size: 20px;
+  text-align: justify;
+  max-width: 1240px;
+}
+
+.intro-visuals img {
+  margin-right: 12px;
+  filter: saturate(0.9) brightness(0.95);
 }
 
 .sticky-container {
@@ -479,6 +512,7 @@ a {
   top: 0;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
   padding: 0 5%;
@@ -522,6 +556,73 @@ a {
   height: 100vh;
   z-index: 0;
   background-color: red;
+}
+/* Pinned journey progress bar and cards */
+.journey-progress-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.08);
+  z-index: 40;
+}
+.journey-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #5b8cff, #7ce0d8);
+  transition: width 0.1s linear;
+  display: none;
+}
+.cards {
+  width: 460px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.journey-card {
+  width: 100%;
+  padding: 28px 26px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.01)
+  );
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 18px 40px rgba(2, 10, 8, 0.45);
+  opacity: 0;
+  transform: translateY(30px) scale(0.98) rotate(4deg);
+  transform-origin: left center;
+  backdrop-filter: blur(6px);
+}
+.journey-card:nth-child(1) {
+  transform: translateY(18px) scale(0.98) rotate(-6deg);
+}
+.journey-card:nth-child(2) {
+  transform: translateY(30px) scale(0.99) rotate(2deg);
+}
+.journey-card:nth-child(3) {
+  transform: translateY(44px) scale(0.98) rotate(6deg);
+}
+.journey-card h3 {
+  margin: 0 0 8px 0;
+  font-family: var(--display-font);
+  font-weight: 600;
+  color: #e8f6f1;
+}
+.journey-card p {
+  margin: 0;
+  color: rgba(232, 246, 241, 0.9);
+}
+
+.journey-card .accent {
+  height: 6px;
+  width: 56px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #57d6b6, #6be0c9 60%);
+  margin-bottom: 14px;
 }
 /* 09049236114 */
 
@@ -603,3 +704,9 @@ a {
 .feature-img.active {
   opacity: 1;
 } */
+
+.random {
+  height: 200vh;
+  width: 100vw;
+  background: var(--bg-color);
+}

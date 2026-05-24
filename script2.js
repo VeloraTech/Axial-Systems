@@ -55,7 +55,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     aboutTimeline
       .to(aboutSection, {
         opacity: 1,
-        scale: 0.935,
+        scale: 0.95,
         background: "#222",
         borderRadius: 90,
         duration: 0.5,
@@ -64,25 +64,25 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         opacity: 1,
         scale: 1,
         borderRadius: 0,
-        background: "black",
+        background: "#222",
         duration: 1,
       })
       .to(aboutSection, {
-        opacity: 0,
-        scale: 1,
-        borderRadius: 90,
+        opacity: 1,
+        // scale: 0.,
+        // borderRadius: 9,
         background: "#222",
         duration: 0.5,
       });
   }
 
   if (journeyIntroText) {
-    gsap.set(journeyIntroText, { opacity: 0, x: -50 });
+    gsap.set(journeyIntroText, { opacity: 0 });
 
     const journeyIntroTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: journeyIntroText,
-        start: "top center",
+        start: "top bottom",
         end: "bottom top",
         scrub: true,
         // pin: true,
@@ -91,8 +91,10 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
 
     journeyIntroTimeline
       .to(journeyIntroText, {
-        opacity: 0.3,
         x: -50,
+        opacity: 0,
+        background:
+          "url(./Explore Business WordPress Website Design trends….jpg)",
         duration: 0.5,
       })
       .to(journeyIntroText, {
@@ -101,7 +103,9 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         duration: 1,
       })
       .to(journeyIntroText, {
-        opacity: 0.3,
+        opacity: 0,
+        x: 0,
+        borderRadius: 100,
         duration: 0.5,
       });
   }
@@ -174,6 +178,57 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       if (bg) bg.classList.add("dark");
     },
   });
+
+  // Pinned journey section with scrubbed timeline (no progress bar dependency)
+  const journeySection = document.querySelector(".journey-section");
+  const journeyCards = gsap.utils.toArray(".journey-card");
+
+  if (journeySection && journeyCards.length) {
+    // ensure initial style and smooth radius transitions
+    journeySection.style.transition =
+      journeySection.style.transition ||
+      "border-bottom-left-radius 0.6s ease, border-bottom-right-radius 0.6s ease";
+
+    gsap.set(journeyCards, { autoAlpha: 0, y: 30 });
+
+    const journeyTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: journeySection,
+        start: "top top",
+        end: "+=1800",
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        onEnter: () => {
+          // when pin engages, make the bottom corners square
+          journeySection.style.borderBottomLeftRadius = "0px";
+          journeySection.style.borderBottomRightRadius = "0px";
+        },
+        onEnterBack: () => {
+          journeySection.style.borderBottomLeftRadius = "0px";
+          journeySection.style.borderBottomRightRadius = "0px";
+        },
+        onLeave: () => {
+          // when unpinned after scroll finishes, restore radius
+          journeySection.style.borderBottomLeftRadius = "90px";
+          journeySection.style.borderBottomRightRadius = "90px";
+        },
+        onLeaveBack: () => {
+          // when scrolling back up past the section, restore radius as appropriate
+          journeySection.style.borderBottomLeftRadius = "90px";
+          journeySection.style.borderBottomRightRadius = "90px";
+        },
+      },
+    });
+
+    // Each card fades in, holds, then fades out; distributed across the timeline
+    journeyCards.forEach((card, i) => {
+      const revealStart = i * 0.9; // stagger timing on timeline
+      journeyTL
+        .to(card, { autoAlpha: 1, y: 0, duration: 0.6 }, revealStart)
+        .to(card, { autoAlpha: 0, y: -30, duration: 0.6 }, revealStart + 0.75);
+    });
+  }
 }
 
 if (adSection) {
