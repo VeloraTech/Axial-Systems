@@ -9,6 +9,9 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
   const featureSteps = gsap.utils.toArray(".feature-step");
   const featureImages = gsap.utils.toArray(".feature-img");
   const journeyIntroText = document.querySelector(".journey-intro-text");
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   heroSections.forEach((section) => {
     gsap.set(section, { opacity: 1, scale: 1 });
@@ -39,7 +42,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     }
   });
 
-  if (aboutSection) {
+  if (aboutSection && !prefersReducedMotion) {
     gsap.set(aboutSection, { opacity: 1, borderRadius: 90 });
 
     const aboutTimeline = gsap.timeline({
@@ -56,27 +59,30 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       .to(aboutSection, {
         opacity: 1,
         scale: 0.95,
-        background: "#222",
+        // background: "#222",
         borderRadius: 90,
         duration: 0.5,
+        background: "#292a28",
       })
       .to(aboutSection, {
         opacity: 1,
         scale: 1,
         borderRadius: 0,
-        background: "#222",
+        // background: "#222",
         duration: 1,
+        background: "#171817",
       })
       .to(aboutSection, {
         opacity: 1,
         // scale: 0.,
         // borderRadius: 9,
-        background: "#222",
+        // background: "#222",
         duration: 0.5,
+        background: "#171817",
       });
   }
 
-  if (journeyIntroText) {
+  if (journeyIntroText && !prefersReducedMotion) {
     gsap.set(journeyIntroText, { opacity: 0 });
 
     const journeyIntroTimeline = gsap.timeline({
@@ -93,8 +99,6 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       .to(journeyIntroText, {
         x: -50,
         opacity: 0,
-        background:
-          "url(./Explore Business WordPress Website Design trends….jpg)",
         duration: 0.5,
       })
       .to(journeyIntroText, {
@@ -105,12 +109,12 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       .to(journeyIntroText, {
         opacity: 0,
         x: 0,
-        borderRadius: 100,
         duration: 0.5,
       });
   }
 
   featureSteps.forEach((step, i) => {
+    if (prefersReducedMotion) return;
     gsap.set(step, { opacity: 0.3, y: 40 });
 
     const featureTimeline = gsap.timeline({
@@ -183,7 +187,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
   const journeySection = document.querySelector(".journey-section");
   const journeyCards = gsap.utils.toArray(".journey-card");
 
-  if (journeySection && journeyCards.length) {
+  if (journeySection && journeyCards.length && !prefersReducedMotion) {
     // ensure initial style and smooth radius transitions
     journeySection.style.transition =
       journeySection.style.transition ||
@@ -199,25 +203,26 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         scrub: 1,
         pin: true,
         anticipatePin: 1,
-        onEnter: () => {
-          // when pin engages, make the bottom corners square
-          journeySection.style.borderBottomLeftRadius = "0px";
-          journeySection.style.borderBottomRightRadius = "0px";
-        },
-        onEnterBack: () => {
-          journeySection.style.borderBottomLeftRadius = "0px";
-          journeySection.style.borderBottomRightRadius = "0px";
-        },
-        onLeave: () => {
-          // when unpinned after scroll finishes, restore radius
-          journeySection.style.borderBottomLeftRadius = "90px";
-          journeySection.style.borderBottomRightRadius = "90px";
-        },
-        onLeaveBack: () => {
-          // when scrolling back up past the section, restore radius as appropriate
-          journeySection.style.borderBottomLeftRadius = "90px";
-          journeySection.style.borderBottomRightRadius = "90px";
-        },
+        //   onEnter: () => {
+        //     // when pin engages, make the bottom corners square
+        //     journeySection.style.borderBottomLeftRadius = "0px";
+        //     journeySection.style.borderBottomRightRadius = "0px";
+        //   },
+        //   onEnterBack: () => {
+        //     journeySection.style.borderBottomLeftRadius = "0px";
+        //     journeySection.style.borderBottomRightRadius = "0px";
+        //   },
+        //   onLeave: () => {
+        //     // when unpinned after scroll finishes, restore radius
+        //     journeySection.style.borderBottomLeftRadius = "90px";
+        //     journeySection.style.borderBottomRightRadius = "90px";
+        //   },
+        //   onLeaveBack: () => {
+        //     // when scrolling back up past the section, restore radius as appropriate
+        //     journeySection.style.borderBottomLeftRadius = "90px";
+        //     journeySection.style.borderBottomRightRadius = "90px";
+        //   },
+        // },
       },
     });
 

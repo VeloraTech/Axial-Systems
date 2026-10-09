@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Axial Systems - Systems Engineering, SaaS Platforms & Automation
+      Axial Systems — Product Engineering Lab
     </title>
+    <meta name="description" content="Axial Systems is an independent product engineering lab building structured tools and digital infrastructure." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -159,46 +163,42 @@
     <section class="ads-section scene-content scene">
       <h1 class="text wipe-reveal">WHAT DO WE OFFER YOU</h1>
     </section> -->
-    <div class="journey-intro-text" id="about/">
-      <h1>WHAT DO YOU KNOW?</h1>
-      <p>
-        The tech industry ships a new product every <span>11 seconds</span> and
-        in the last decade, the cost of building those products and software
-        dropped by 80%. <span>Yet most teams </span>still spend 40% of their
-        time managing tools instead of building with them. The modern builder
-        has never had more options than there is now - but as less clarity as
-        ever before. The gap between a great idea and a great product isn't
-        talent - its infrastructure. But the complexity of managing that
-        process? It went the other way.
-      </p>
-      <!-- <img
-        src="./Explore Business WordPress Website Design trends….jpg"
-        alt=""
-      /> -->
-    </div>
+
+    <section class="journey-intro-text" aria-labelledby="intro-title">
+      <p class="eyebrow">AXIAL SYSTEMS / PRODUCT ENGINEERING LAB</p>
+      <h1 id="intro-title">Good systems make room for good work.</h1>
+      <p class="intro-copy">Axial Systems explores the structure behind useful digital products: clear tasks, dependable workflows, and infrastructure built to support the work.</p>
+      <span class="intro-index" aria-hidden="true">01 — 03</span>
+    </section>
     <section class="journey-section" id="about">
       <div class="journey-progress-track">
         <div class="journey-progress"></div>
       </div>
       <div class="sticky-container">
-        <h1>WHAT MORE IS LEFT</h1>
+        <p class="eyebrow section-kicker">
+          SYSTEMS IN DEVELOPMENT
+        </p>
         <div class="left-content">
-          <h2 id="title">Define Goals</h2>
-          <p id="description">Start describing your project</p>
+          <p class="eyebrow">THE WORK, MADE TANGIBLE</p>
+          <h2 id="title">Tools for clearer execution.</h2>
+          <p id="description">A growing set of systems for planning work, keeping knowledge, and connecting the steps in between.</p>
         </div>
         <div class="right-content">
           <div class="cards">
             <div class="journey-card">
-              <h3>Orbiton — Developer First</h3>
-              <p>APIs designed for engineers: integrate in minutes.</p>
+              <p class="system-status">CURRENT FOCUS</p>
+              <h3>Axial Tasks</h3>
+              <p>A structured task engine for priorities, milestones, and a clearer view of what comes next.</p>
             </div>
             <div class="journey-card">
-              <h3>Orbiton — Secure by Design</h3>
-              <p>Enterprise-grade security and compliance out of the box.</p>
+              <p class="system-status">PLANNED</p>
+              <h3>Axial Vault</h3>
+              <p>An offline-first home for notes and ideas, designed around private storage and useful retrieval.</p>
             </div>
             <div class="journey-card">
-              <h3>Orbiton — Scale Instantly</h3>
-              <p>Global infrastructure to grow with your product.</p>
+              <p class="system-status">PLANNED</p>
+              <h3>Axial Flow</h3>
+              <p>A lightweight way to map task dependencies and make a process easier to follow.</p>
             </div>
           </div>
         </div>
@@ -215,24 +215,24 @@
         #axcess-hscroll,
         #axcess-hscroll * {
           box-sizing: border-box;
+          font-family: "Manrope", sans-serif !important;
         }
-
         /* ── Variables per panel ── */
         #axcess-hscroll .ahs-panel:nth-child(1) {
-          --ac: #ff6b6b;
-          --ac-rgb: 255, 107, 107;
+          --ac: #b9b9b3;
+          --ac-rgb: 185, 185, 179;
         }
         #axcess-hscroll .ahs-panel:nth-child(2) {
-          --ac: #ffc947;
-          --ac-rgb: 255, 201, 71;
+          --ac: #e9e8e1;
+          --ac-rgb: 233, 232, 225;
         }
         #axcess-hscroll .ahs-panel:nth-child(3) {
-          --ac: #4da9ff;
-          --ac-rgb: 77, 169, 255;
+          --ac: #96968f;
+          --ac-rgb: 150, 150, 143;
         }
         #axcess-hscroll .ahs-panel:nth-child(4) {
-          --ac: #00f0a0;
-          --ac-rgb: 0, 240, 160;
+          --ac: #d0d0c9;
+          --ac-rgb: 208, 208, 201;
         }
 
         /* ── Pin wrapper ── */
@@ -240,7 +240,7 @@
           width: 100%;
           height: 100vh;
           overflow: hidden;
-          background: #0a0a0f;
+          background: #171817;
           position: relative;
         }
 
@@ -294,7 +294,7 @@
 
         /* giant faded number */
         #axcess-hscroll .ahs-bg-num {
-          font-family: "Bebas Neue", "Arial Black", sans-serif;
+          font-family: "Manrope", sans-serif;
           font-size: clamp(10rem, 18vw, 18rem);
           line-height: 1;
           letter-spacing: -0.02em;
@@ -408,7 +408,7 @@
 
         /* panel index label */
         #axcess-hscroll .ahs-step-label {
-          font-family: "Bebas Neue", "Arial Black", sans-serif;
+          font-family: "Manrope", sans-serif;
           font-size: 0.85rem;
           letter-spacing: 0.25em;
           color: var(--ac);
@@ -429,7 +429,7 @@
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          font-family: "Instrument Sans", sans-serif;
+          font-family: "Manrope", sans-serif;
           font-size: 0.68rem;
           letter-spacing: 0.22em;
           text-transform: uppercase;
@@ -447,7 +447,7 @@
         }
 
         #axcess-hscroll .ahs-heading {
-          font-family: "Bebas Neue", "Arial Black", sans-serif;
+          font-family: "Manrope", sans-serif;
           font-size: clamp(2.2rem, 3.5vw, 4rem);
           letter-spacing: 0.03em;
           line-height: 1.05;
@@ -456,7 +456,7 @@
         }
 
         #axcess-hscroll .ahs-body {
-          font-family: "Instrument Sans", sans-serif;
+          font-family: "Manrope", sans-serif;
           font-size: clamp(0.9rem, 1.1vw, 1.05rem);
           color: #7a7a8a;
           line-height: 1.85;
@@ -496,7 +496,7 @@
 
         #axcess-hscroll .ahs-dot.is-active {
           width: 22px;
-          background: #00f0a0;
+          background: #deded7;
         }
 
         /* ── "scroll to advance" hint ── */
@@ -507,7 +507,7 @@
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          font-family: "Instrument Sans", sans-serif;
+          font-family: "Manrope", sans-serif;
           font-size: 0.65rem;
           letter-spacing: 0.18em;
           text-transform: uppercase;
@@ -574,16 +574,13 @@
               </div>
             </div>
             <div class="ahs-text">
-              <div class="ahs-tag">The Problem</div>
+                <div class="ahs-tag">The friction</div>
               <h2 class="ahs-heading">
-                Your Team Didn't Sign Up to Manage Tools
+                Too many tools. Too little continuity.
               </h2>
               <div class="ahs-line"></div>
               <p class="ahs-body">
-                Your team didn't sign up to manage tools. They signed up to
-                build things. But somewhere between the website platform, the
-                automation stack, and the product pipeline — the building became
-                the smallest part of the job.
+                When tasks, notes, and workflows live in separate places, the shape of the work gets harder to see. Axial starts with that everyday problem.
               </p>
             </div>
           </div>
@@ -604,16 +601,13 @@
               </div>
             </div>
             <div class="ahs-text">
-              <div class="ahs-tag">The Cost</div>
+                <div class="ahs-tag">The principle</div>
               <h2 class="ahs-heading">
-                Every Hour Switching Is an Hour Not Shipping
+                Make the next step easier to see.
               </h2>
               <div class="ahs-line"></div>
               <p class="ahs-body">
-                Every hour spent switching between platforms is an hour not
-                spent shipping. Every workflow built in isolation is a workflow
-                that breaks when something changes. The overhead is silent — but
-                it's real, and it compounds.
+                Structure turns a large goal into tasks, milestones, and decisions people can act on. That clarity is the foundation for the systems Axial is exploring.
               </p>
             </div>
           </div>
@@ -636,16 +630,13 @@
               </div>
             </div>
             <div class="ahs-text">
-              <div class="ahs-tag">The Question</div>
+                <div class="ahs-tag">The method</div>
               <h2 class="ahs-heading">
-                What If the Infrastructure Just Got Out of the Way?
+                Build around the work itself.
               </h2>
               <div class="ahs-line"></div>
               <p class="ahs-body">
-                What if your website, your workflows, and your product lab all
-                lived in one place? What if the infrastructure got out of the
-                way — and all that was left was the work? That question is
-                exactly what Axcess was built to answer.
+                Axial’s work begins with practical building blocks: task planning, knowledge that stays available, and workflows whose dependencies are visible.
               </p>
             </div>
           </div>
@@ -667,16 +658,13 @@
               </div>
             </div>
             <div class="ahs-text">
-              <div class="ahs-tag">The Answer</div>
+                <div class="ahs-tag">The direction</div>
               <h2 class="ahs-heading">
-                One Platform. Every Tool. Connected From Day One.
+                A systems lab, growing one useful tool at a time.
               </h2>
               <div class="ahs-line"></div>
               <p class="ahs-body">
-                That's exactly what Axcess is. One platform. Every tool your
-                team needs to build, automate, and launch — connected from day
-                one, and designed to grow with you. This is engineering, built
-                for impact.
+                Axial Systems is an independent product engineering lab. Its focus is a connected body of tools and infrastructure, developed with clarity and real-world use in mind.
               </p>
             </div>
           </div>
@@ -725,6 +713,12 @@
           /* total track width = N × 100vw */
           track.style.width = N * 100 + "vw";
 
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            track.style.display = "grid";
+            track.style.width = "100%";
+            return;
+          }
+
           /* scroll distance = move track by (N-1) panel widths */
           const getTravelDist = () => window.innerWidth * (N - 1);
 
@@ -762,49 +756,32 @@
         })();
       </script>
     </div>
-
-    <section class="feature-scroll">
-      <div class="feature-container">
-        <div class="feature-text">
-          <div class="feature-step">
-            <h2>Developer First APIs</h2>
-            <p>Build powerful integrations with minimal effort.</p>
-          </div>
-
-          <div class="feature-step">
-            <h2>Secure Infrastructure</h2>
-            <p>Enterprise-grade security for global payments.</p>
-          </div>
-
-          <div class="feature-step">
-            <h2>Global Reach</h2>
-            <p>Scale your product worldwide instantly.</p>
-          </div>
-        </div>
-
-        <div class="feature-images">
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
-            class="feature-img active"
-          />
-          <img
-            class="feature-img"
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400"
-            class="feature-img"
-          />
-        </div>
+    <section class="feature-scroll" id="approach" aria-labelledby="approach-title">
+      <div class="approach-heading">
+        <p class="eyebrow">HOW THE PIECES FIT</p>
+        <h2 id="approach-title">A clearer line from idea to execution.</h2>
       </div>
+      <div class="approach-steps">
+        <article class="feature-step"><span>01</span><h3>Give the work structure</h3><p>Break a goal into priorities and milestones that can be understood and acted on.</p></article>
+        <article class="feature-step"><span>02</span><h3>Keep knowledge close</h3><p>Make the notes and decisions around a project easier to keep and find.</p></article>
+        <article class="feature-step"><span>03</span><h3>Connect the dependencies</h3><p>Show how one step leads to another, so progress is easier to navigate.</p></article>
+      </div>
+      <div class="approach-mark" aria-hidden="true"><span>AX</span><i></i><i></i><i></i></div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+    <footer class="site-footer">
+      <a class="footer-mark" href="#" aria-label="Axial Systems, back to top">AXIAL<span> / SYSTEMS</span></a>
+      <p>Independent product engineering lab.<br />Built around clarity, structure, and useful work.</p>
+      <nav aria-label="Footer navigation"><a href="#about">Systems</a><a href="#approach">Approach</a><a href="#">Back to top ↑</a></nav>
+      <small>© 2026 Axial Systems</small>
+    </footer>
+
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
     ></script>
+    <script src="./gsap.min.js"></script>
+    <script src="./ScrollTrigger.min.js"></script>
     <script
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
