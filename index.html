@@ -24,10 +24,10 @@
         />
         <nav>
           <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="#about/">About us</a></li>
-            <li><a href="">Products</a></li>
-            <li><a href="">Labs</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About us</a></li>
+            <li><a href="#about">Products</a></li>
+            <li><a href="#approach">Labs</a></li>
           </ul>
         </nav>
         <button class="cta">
@@ -542,11 +542,32 @@
           #axcess-hscroll .ahs-visual {
             display: none;
           }
+          #axcess-hscroll .ahs-pin {
+            height: auto;
+            min-height: 0;
+            overflow: visible;
+          }
+          #axcess-hscroll .ahs-track {
+            display: grid;
+            width: 100%;
+            height: auto;
+            transform: none;
+          }
+          #axcess-hscroll .ahs-panel {
+            width: 100%;
+            height: auto;
+            min-height: 65svh;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          }
           #axcess-hscroll .ahs-text {
-            padding: 0 2rem;
+            padding: 0 clamp(1.4rem, 7vw, 2.5rem);
           }
           #axcess-hscroll .ahs-heading {
-            font-size: 2rem;
+            font-size: clamp(2rem, 9vw, 3rem);
+          }
+          #axcess-hscroll .ahs-dots,
+          #axcess-hscroll .ahs-hint {
+            display: none;
           }
         }
       </style>
@@ -710,49 +731,59 @@
           const panels = track.querySelectorAll(".ahs-panel");
           const N = panels.length;
 
-          /* total track width = N × 100vw */
-          track.style.width = N * 100 + "vw";
-
-          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            track.style.display = "grid";
-            track.style.width = "100%";
-            return;
-          }
-
-          /* scroll distance = move track by (N-1) panel widths */
-          const getTravelDist = () => window.innerWidth * (N - 1);
-
-          gsap.to(track, {
-            x: () => -getTravelDist(),
-            ease: "none",
-            scrollTrigger: {
-              trigger: pin,
-              start: "top top",
-              end: () => `+=${getTravelDist()}`,
-              pin: true,
-              scrub: 1.2,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-
-              /* proximity snap — nudges to nearest panel */
-              snap: {
-                snapTo: 1 / (N - 1),
-                duration: { min: 0.25, max: 0.55 },
-                ease: "power2.inOut",
-                delay: 0.08,
-              },
-
-              onUpdate(self) {
-                /* active dot */
-                const active = Math.round(self.progress * (N - 1));
-                dots.forEach((d, i) =>
-                  d.classList.toggle("is-active", i === active),
-                );
-                /* fade hint after leaving first panel */
-                if (hint) hint.style.opacity = self.progress < 0.12 ? "1" : "0";
-              },
+          const horizontalScene = gsap.matchMedia();
+          horizontalScene.add(
+            {
+              desktop: "(min-width: 701px) and (prefers-reduced-motion: no-preference)",
             },
-          });
+            ({ conditions }) => {
+              if (!conditions.desktop) {
+                track.style.display = "grid";
+                track.style.width = "100%";
+                if (hint) hint.hidden = true;
+                return () => {
+                  track.style.display = "";
+                  track.style.width = "";
+                  if (hint) hint.hidden = false;
+                };
+              }
+
+              track.style.width = N * 100 + "vw";
+              const getTravelDist = () => window.innerWidth * (N - 1);
+
+              gsap.to(track, {
+                x: () => -getTravelDist(),
+                ease: "none",
+                scrollTrigger: {
+                  trigger: pin,
+                  start: "top top",
+                  end: () => `+=${getTravelDist()}`,
+                  pin: true,
+                  scrub: 0.7,
+                  anticipatePin: 1,
+                  invalidateOnRefresh: true,
+                  snap: {
+                    snapTo: 1 / (N - 1),
+                    duration: { min: 0.2, max: 0.42 },
+                    ease: "power2.out",
+                    delay: 0.06,
+                  },
+                  onUpdate(self) {
+                    const active = Math.round(self.progress * (N - 1));
+                    dots.forEach((dot, i) =>
+                      dot.classList.toggle("is-active", i === active),
+                    );
+                    if (hint) hint.style.opacity = self.progress < 0.12 ? "1" : "0";
+                  },
+                },
+              });
+
+              return () => {
+                track.style.width = "";
+                if (hint) hint.style.opacity = "";
+              };
+            },
+          );
         })();
       </script>
     </div>

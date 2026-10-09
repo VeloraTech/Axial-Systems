@@ -50,7 +50,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         trigger: aboutSection,
         start: "top bottom",
         end: "bottom center",
-        scrub: true,
+        scrub: 0.65,
         // pin: true,
       },
     });
@@ -83,34 +83,22 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
   }
 
   if (journeyIntroText && !prefersReducedMotion) {
-    gsap.set(journeyIntroText, { opacity: 0 });
-
-    const journeyIntroTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: journeyIntroText,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        // pin: true,
+    gsap.fromTo(
+      journeyIntroText,
+      { autoAlpha: 0, y: 24 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: journeyIntroText,
+          start: "top 88%",
+          end: "top 56%",
+          scrub: 0.55,
+          invalidateOnRefresh: true,
+        },
       },
-    });
-
-    journeyIntroTimeline
-      .to(journeyIntroText, {
-        x: -50,
-        opacity: 0,
-        duration: 0.5,
-      })
-      .to(journeyIntroText, {
-        opacity: 1,
-        x: 0,
-        duration: 1,
-      })
-      .to(journeyIntroText, {
-        opacity: 0,
-        x: 0,
-        duration: 0.5,
-      });
+    );
   }
 
   featureSteps.forEach((step, i) => {
@@ -122,7 +110,8 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
         trigger: step,
         start: "top center",
         end: "bottom center",
-        scrub: true,
+        scrub: 0.55,
+        invalidateOnRefresh: true,
         onEnter: () => {
           featureImages.forEach((img) => img.classList.remove("active"));
           if (featureImages[i]) featureImages[i].classList.add("active");
@@ -187,63 +176,52 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
   const journeySection = document.querySelector(".journey-section");
   const journeyCards = gsap.utils.toArray(".journey-card");
 
-  if (journeySection && journeyCards.length && !prefersReducedMotion) {
-    // ensure initial style and smooth radius transitions
-    journeySection.style.transition =
-      journeySection.style.transition ||
-      "border-bottom-left-radius 0.6s ease, border-bottom-right-radius 0.6s ease";
+  if (journeySection && journeyCards.length) {
+    const journeyMotion = gsap.matchMedia();
 
-    gsap.set(journeyCards, { autoAlpha: 0, y: 30 });
+    journeyMotion.add(
+      "(min-width: 701px) and (prefers-reduced-motion: no-preference)",
+      () => {
+        gsap.set(journeyCards, { autoAlpha: 0, y: 22 });
 
-    const journeyTL = gsap.timeline({
-      scrollTrigger: {
-        trigger: journeySection,
-        start: "top top",
-        end: "+=1800",
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        //   onEnter: () => {
-        //     // when pin engages, make the bottom corners square
-        //     journeySection.style.borderBottomLeftRadius = "0px";
-        //     journeySection.style.borderBottomRightRadius = "0px";
-        //   },
-        //   onEnterBack: () => {
-        //     journeySection.style.borderBottomLeftRadius = "0px";
-        //     journeySection.style.borderBottomRightRadius = "0px";
-        //   },
-        //   onLeave: () => {
-        //     // when unpinned after scroll finishes, restore radius
-        //     journeySection.style.borderBottomLeftRadius = "90px";
-        //     journeySection.style.borderBottomRightRadius = "90px";
-        //   },
-        //   onLeaveBack: () => {
-        //     // when scrolling back up past the section, restore radius as appropriate
-        //     journeySection.style.borderBottomLeftRadius = "90px";
-        //     journeySection.style.borderBottomRightRadius = "90px";
-        //   },
-        // },
+        const journeyTL = gsap.timeline({
+          scrollTrigger: {
+            trigger: journeySection,
+            start: "top top",
+            end: "+=1450",
+            scrub: 0.65,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        journeyCards.forEach((card, i) => {
+          journeyTL.to(
+            card,
+            { autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out" },
+            i * 0.35,
+          );
+        });
       },
-    });
-
-    // Each card fades in, holds, then fades out; distributed across the timeline
-    journeyCards.forEach((card, i) => {
-      const revealStart = i * 0.9; // stagger timing on timeline
-      journeyTL
-        .to(card, { autoAlpha: 1, y: 0, duration: 0.6 }, revealStart)
-        .to(card, { autoAlpha: 0, y: -30, duration: 0.6 }, revealStart + 0.75);
-    });
+    );
   }
 }
 
-if (adSection) {
-  gsap.to(adSection, {
+const adSectionReveal = document.querySelector(".scene");
+
+if (
+  adSectionReveal &&
+  typeof gsap !== "undefined" &&
+  typeof ScrollTrigger !== "undefined"
+) {
+  gsap.to(adSectionReveal, {
     transform: "translateY(0)",
     opacity: 1,
     duration: 1.3,
     ease: "power3.out",
     scrollTrigger: {
-      trigger: adSection,
+      trigger: adSectionReveal,
       start: "top 80%",
       end: "+=800",
       scrub: true,

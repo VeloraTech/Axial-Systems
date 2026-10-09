@@ -774,6 +774,12 @@ a {
   transform-origin: left center;
 }
 
+.journey-card {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
 .journey-card:first-child {
   border-top: 1px solid #41413e;
 }
@@ -925,26 +931,83 @@ a {
 .site-footer nav a { position: static; color: #d3d3cd; font-size: 0.82rem; }
 .site-footer small { grid-column: 1 / -1; padding-top: 1.5rem; color: #8a8a83; border-top: 1px solid #41413e; }
 
+@media (min-width: 701px) and (max-width: 1024px) {
+  header { width: 100%; box-sizing: border-box; padding: 0 4vw 0 2rem; align-items: center; }
+  .logo { width: auto; height: clamp(3.25rem, 6vw, 4.2rem); }
+  nav { transform: none; margin: 0 auto; }
+  nav ul { width: clamp(18rem, 42vw, 22rem); gap: 1rem; margin: 0; padding: 0; }
+  nav ul li a { position: relative; white-space: nowrap; }
+  .cta { padding-right: 0; }
+  .body { width: 100%; }
+  .stage { width: min(100%, 64rem); top: clamp(0.75rem, 3vw, 2rem); }
+  .item { width: clamp(11rem, 23vw, 16rem); height: clamp(15rem, 34vw, 22rem); }
+  .hero-text { width: 100%; padding: 0 5vw; box-sizing: border-box; }
+  .hero-text h2 { max-width: min(56rem, 86vw); }
+  .sticky-container { column-gap: 6vw; padding: 5rem 7vw; }
+  .feature-scroll { grid-template-columns: minmax(12rem, 0.7fr) minmax(18rem, 1fr); gap: 5vw; padding-inline: 7vw; }
+  .site-footer { grid-template-columns: 1fr 1.2fr; }
+  .site-footer nav { grid-column: 1 / -1; }
+}
+
 @media (max-width: 700px) {
+  .hero-section { height: auto; min-height: 100svh; padding-bottom: 2.5rem; border-bottom-left-radius: 2rem; border-bottom-right-radius: 2rem; overflow: hidden; }
+  .hero-section header { position: relative; top: auto; width: 100%; min-height: 4.25rem; box-sizing: border-box; align-items: center; padding: 0 1rem; }
+  .hero-section .logo { flex: 0 0 auto; width: auto; height: clamp(2.1rem, 9vw, 3.25rem); }
+  .hero-section nav { flex: 1 1 auto; min-width: 0; justify-content: center; transform: none; margin: 0; }
+  .hero-section nav ul { width: auto; gap: clamp(0.45rem, 2.7vw, 1rem); margin: 0; padding: 0 0.5rem; }
+  .hero-section nav ul li a { position: relative; white-space: nowrap; font-size: clamp(0.58rem, 2.5vw, 0.78rem); }
+  .hero-section .cta { flex: 0 0 auto; margin: 0; padding: 0; }
+  .body { position: relative; top: auto; right: auto; width: 100%; transform: none; padding-top: clamp(1.5rem, 5svh, 3rem); }
+  .stage { top: 0; width: 100%; max-height: none; mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent); }
+  .track { padding: 2.5rem 0; }
+  .item { width: clamp(9.5rem, 42vw, 15rem); height: clamp(13.3rem, 58.8vw, 21rem); margin: 0 0.45rem; }
+  .hero-text { width: 100%; box-sizing: border-box; padding: 0 7vw; }
+  .hero-text h1 { max-width: 17ch; margin: 0.6em auto 0.5em; padding-top: 1rem; font-size: clamp(1.8rem, 8vw, 3rem); line-height: 1.05; text-align: center; text-wrap: balance; }
+  .hero-text h2 { max-width: 42rem; margin: 0 auto; font-size: clamp(0.9rem, 3.7vw, 1.1rem); line-height: 1.55; text-wrap: pretty; }
   .journey-intro-text { min-height: 48vh; padding: 5rem 7vw 6rem; }
   .journey-intro-text h1 { max-width: 10ch; font-size: clamp(2.9rem, 13vw, 5rem); }
   .intro-index { right: 7vw; bottom: 1.8rem; }
-  .sticky-container { position: relative; top: auto; min-height: 100svh; height: auto; grid-template-columns: 1fr; grid-template-rows: auto; gap: 3rem; padding: 5rem 7vw; }
+  .sticky-container { position: relative; top: auto; min-height: 0; height: auto; grid-template-columns: 1fr; grid-template-rows: auto; gap: 2.5rem; padding: 5rem 7vw; }
   .sticky-container > .section-kicker { grid-column: auto; }
   .left-content h2 { font-size: clamp(2.6rem, 11vw, 4rem); }
   .cards { max-width: none; }
   .journey-card, .journey-card:nth-child(n) { padding: 1.25rem 0; transform: none; }
-  #axcess-hscroll .ahs-pin { height: auto; min-height: 100svh; overflow: hidden; }
-  #axcess-hscroll .ahs-panel { min-height: 100svh; height: auto; }
+  #axcess-hscroll .ahs-pin { height: auto; min-height: 0; overflow: visible; }
+  #axcess-hscroll .ahs-track { display: grid; width: 100%; height: auto; transform: none; }
+  #axcess-hscroll .ahs-panel { width: 100%; height: auto; min-height: 65svh; }
   #axcess-hscroll .ahs-heading { font-size: clamp(2rem, 9vw, 3rem); }
-  #axcess-hscroll .ahs-hint { right: 1.5rem; bottom: 1.5rem; }
-  #axcess-hscroll .ahs-dots { bottom: 1.6rem; }
-  .feature-scroll { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 7vw; }
+  #axcess-hscroll .ahs-hint, #axcess-hscroll .ahs-dots { display: none; }
+  .feature-scroll { min-height: 0; grid-template-columns: 1fr; gap: 3rem; padding: 5rem 7vw; }
   .approach-heading h2 { max-width: 10ch; font-size: clamp(2.8rem, 12vw, 4.5rem); }
   .approach-mark { right: -3rem; bottom: -5rem; font-size: 15rem; }
   .site-footer { grid-template-columns: 1fr; gap: 1.4rem; padding: 2.5rem 7vw 1.5rem; }
   .site-footer nav { flex-wrap: wrap; }
   .site-footer small { grid-column: auto; }
+}
+
+@media (max-width: 380px) {
+  .hero-section nav li:first-child { display: none; }
+  .hero-section nav ul { gap: 0.65rem; }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .hero-section { min-height: 0; padding-bottom: 1.5rem; }
+  .body { padding-top: 0.5rem; }
+  .track { padding: 1rem 0; }
+  .item { width: clamp(8.5rem, 30vw, 13rem); height: 54svh; }
+  .hero-text h1 { padding-top: 0.5rem; font-size: clamp(1.5rem, 5vw, 2.25rem); }
+  .hero-text h2 { font-size: clamp(0.8rem, 2.2vw, 1rem); }
+}
+
+@media (min-width: 701px) and (max-height: 480px) {
+  .hero-section { height: auto; min-height: 100svh; padding-bottom: 1.5rem; }
+  .hero-section header { min-height: 3.5rem; align-items: center; }
+  .logo { height: 3.25rem; }
+  .body { padding-top: 0.25rem; }
+  .track { padding: 1rem 0; }
+  .item { height: 42svh; }
+  .hero-text h1 { padding-top: 0.5rem; }
+  .sticky-container { padding-top: 3rem; padding-bottom: 3rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,9 +2,11 @@ const track = document.getElementById("track");
 const items = document.querySelectorAll(".item");
 let scrollPos = 0;
 let animationFrameId = null;
+let lastFrameTime = 0;
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-function animate() {
-  if (!track || items.length === 0) {
+function animate(now) {
+  if (!track || items.length === 0 || motionPreference.matches) {
     animationFrameId = null;
     return;
   }
@@ -14,11 +16,16 @@ function animate() {
     return;
   }
 
-  scrollPos -= 1.2;
+  const elapsed = lastFrameTime ? Math.min((now - lastFrameTime) / 1000, 0.05) : 0;
+  lastFrameTime = now;
+  scrollPos -= elapsed * 48;
 
-  const halfTrack = track.offsetWidth / 2;
-  if (Math.abs(scrollPos) >= halfTrack) {
-    scrollPos = 0;
+  const itemsPerLoop = Math.floor(items.length / 3);
+  const loopWidth = itemsPerLoop < items.length
+    ? items[itemsPerLoop].offsetLeft - items[0].offsetLeft
+    : track.scrollWidth;
+  if (loopWidth > 0 && Math.abs(scrollPos) >= loopWidth) {
+    scrollPos += loopWidth;
   }
 
   const centerX = window.innerWidth / 2;
@@ -34,33 +41,43 @@ function animate() {
     const translateY = absDist * -40;
     const translateZ = (1 - absDist) * -250;
 
-    item.style.transform = `
-      translateX(${scrollPos}px)
-      translateY(${translateY}px)
-      translateZ(${translateZ}px)
-      scale(${scale})
-      rotateY(${rotateY}deg)
-    `;
+    item.style.transform = `translate3d(${scrollPos}px, ${translateY}px, ${translateZ}px) scale(${scale}) rotateY(${rotateY}deg)`;
   });
 
   animationFrameId = requestAnimationFrame(animate);
 }
 
-if (track && items.length) {
+function startCarousel() {
+  if (!track || items.length === 0 || document.hidden || motionPreference.matches || animationFrameId) {
+    return;
+  }
+  lastFrameTime = 0;
   animationFrameId = requestAnimationFrame(animate);
 }
 
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden && animationFrameId) {
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = null;
-    return;
-  }
+function stopCarousel() {
+  if (animationFrameId) cancelAnimationFrame(animationFrameId);
+  animationFrameId = null;
+  lastFrameTime = 0;
+}
 
-  if (!document.hidden && !animationFrameId && track && items.length) {
-    animationFrameId = requestAnimationFrame(animate);
-  }
+startCarousel();
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopCarousel();
+  else startCarousel();
 });
+
+const handleMotionPreference = () => {
+  if (motionPreference.matches) stopCarousel();
+  else startCarousel();
+};
+
+if (motionPreference.addEventListener) {
+  motionPreference.addEventListener("change", handleMotionPreference);
+} else if (motionPreference.addListener) {
+  motionPreference.addListener(handleMotionPreference);
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   let notifications = Array.from(document.querySelectorAll(".notification"));
