@@ -1,5 +1,54 @@
 const track = document.getElementById("track");
 const items = document.querySelectorAll(".item");
+const menuToggle = document.querySelector(".menu-toggle");
+const primaryNavigation = document.getElementById("primary-navigation");
+const taskPreview = document.querySelector(".task-example");
+
+if (menuToggle && primaryNavigation) {
+  const header = menuToggle.closest("header");
+  const closeMenu = () => {
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open menu");
+    primaryNavigation.classList.remove("is-open");
+  };
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", String(!isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Open menu" : "Close menu");
+    primaryNavigation.classList.toggle("is-open", !isOpen);
+  });
+
+  primaryNavigation.addEventListener("click", (event) => {
+    if (event.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (header && !header.contains(event.target)) closeMenu();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 700) closeMenu();
+  });
+}
+
+if (taskPreview && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  taskPreview.addEventListener("pointermove", (event) => {
+    const bounds = taskPreview.getBoundingClientRect();
+    taskPreview.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+    taskPreview.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+    taskPreview.classList.add("is-lit");
+  });
+
+  taskPreview.addEventListener("pointerleave", () => {
+    taskPreview.classList.remove("is-lit");
+  });
+}
+
 let scrollPos = 0;
 let animationFrameId = null;
 let lastFrameTime = 0;

@@ -15,14 +15,14 @@
   <body>
     <!-- <div class="bg"></div> -->
 
-    <section class="hero-section">
+    <section class="hero-section" id="top">
       <header>
         <img
           src="./image_1_1770857077129-removebg-preview.png"
           alt="logo"
           class="logo"
         />
-        <nav>
+        <nav id="primary-navigation" aria-label="Main navigation">
           <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#about">About us</a></li>
@@ -30,6 +30,9 @@
             <li><a href="#approach">Labs</a></li>
           </ul>
         </nav>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="primary-navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
         <button class="cta">
           <ion-icon
             name="mail-unread-outline"
@@ -614,7 +617,7 @@
         }
       </style>
 
-      <!-- PIN WRAPPER (this gets locked by ScrollTrigger) -->
+        <!-- Scroll-led panels retain their original copy and visual layouts. -->
       <div class="ahs-pin" id="ahsPin">
         <!-- HORIZONTAL TRACK (this slides left) -->
         <div class="ahs-track" id="ahsTrack">
@@ -734,133 +737,85 @@
         </div>
         <!-- /ahs-track -->
 
-        <!-- Progress dots -->
-        <div class="ahs-dots" id="ahsDots">
-          <div class="ahs-dot is-active"></div>
-          <div class="ahs-dot"></div>
-          <div class="ahs-dot"></div>
-          <div class="ahs-dot"></div>
-        </div>
-
-        <!-- Hint -->
-        <div class="ahs-hint" id="ahsHint">
-          scroll to advance
-          <svg viewBox="0 0 26 12">
-            <line x1="0" y1="6" x2="19" y2="6" />
-            <polyline points="13 1 19 6 13 11" />
-          </svg>
-        </div>
       </div>
       <!-- /ahs-pin -->
 
       <script>
-        /* ── Axcess Horizontal Scroll — self-contained init ──
-     Waits for GSAP + ScrollTrigger if not yet loaded.     */
-        (function initAxcessHScroll() {
-          if (
-            typeof gsap === "undefined" ||
-            typeof ScrollTrigger === "undefined"
-          ) {
-            return setTimeout(initAxcessHScroll, 80);
-          }
-
+        if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
           gsap.registerPlugin(ScrollTrigger);
+          const map = document.querySelector("#axcess-hscroll .ahs-track");
+          const nodes = gsap.utils.toArray("#axcess-hscroll .ahs-panel");
+          const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-          const pin = document.getElementById("ahsPin");
-          const track = document.getElementById("ahsTrack");
-          const dots = document.querySelectorAll("#ahsDots .ahs-dot");
-          const hint = document.getElementById("ahsHint");
-          const panels = track.querySelectorAll(".ahs-panel");
-          const N = panels.length;
+          if (map && nodes.length && !reducedMotion) {
+            gsap.fromTo(nodes, { autoAlpha: 0.25, y: 42, scale: 0.93 }, {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              stagger: 0.12,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: map,
+                start: "top 88%",
+                end: "bottom 52%",
+                scrub: 0.8,
+                invalidateOnRefresh: true,
+              },
+            });
 
-          const horizontalScene = gsap.matchMedia();
-          horizontalScene.add(
-            {
-              desktop: "(min-width: 701px) and (prefers-reduced-motion: no-preference)",
-            },
-            ({ conditions }) => {
-              if (!conditions.desktop) {
-                track.style.display = "grid";
-                track.style.width = "100%";
-                if (hint) hint.hidden = true;
-                return () => {
-                  track.style.display = "";
-                  track.style.width = "";
-                  if (hint) hint.hidden = false;
-                };
-              }
-
-              track.style.width = N * 100 + "vw";
-              const getTravelDist = () => window.innerWidth * (N - 1);
-
-              const horizontalTween = gsap.to(track, {
-                x: () => -getTravelDist(),
-                ease: "none",
+            nodes.forEach((node) => {
+              const visual = node.querySelector(".ahs-icon-wrap");
+              if (!visual) return;
+              gsap.fromTo(visual, { autoAlpha: 0.45, scale: 0.72, z: -90, rotateY: -18 }, {
+                autoAlpha: 1,
+                scale: 1,
+                z: 0,
+                rotateY: 0,
+                ease: "power2.out",
                 scrollTrigger: {
-                  trigger: pin,
-                  start: "top top",
-                  end: () => `+=${getTravelDist()}`,
-                  pin: true,
+                  trigger: node,
+                  start: "top 88%",
+                  end: "center 55%",
                   scrub: 0.7,
-                  anticipatePin: 1,
                   invalidateOnRefresh: true,
-                  snap: {
-                    snapTo: 1 / (N - 1),
-                    duration: { min: 0.2, max: 0.42 },
-                    ease: "power2.out",
-                    delay: 0.06,
-                  },
-                  onUpdate(self) {
-                    const active = Math.round(self.progress * (N - 1));
-                    dots.forEach((dot, i) =>
-                      dot.classList.toggle("is-active", i === active),
-                    );
-                    if (hint) hint.style.opacity = self.progress < 0.12 ? "1" : "0";
-                  },
                 },
               });
-
-              panels.forEach((panel) => {
-                const visual = panel.querySelector(".ahs-icon-wrap");
-                if (!visual) return;
-                gsap.fromTo(
-                  visual,
-                  { autoAlpha: 0, x: 100, y: 58, rotateY: -24, rotateZ: -8, scale: 0.72 },
-                  {
-                    autoAlpha: 1,
-                    x: 0,
-                    y: 0,
-                    rotateY: 0,
-                    rotateZ: 0,
-                    scale: 1,
-                    ease: "none",
-                    scrollTrigger: {
-                      trigger: panel,
-                      containerAnimation: horizontalTween,
-                      start: "left 78%",
-                      end: "center center",
-                      scrub: 0.65,
-                      invalidateOnRefresh: true,
-                    },
-                  },
-                );
-              });
-
-              return () => {
-                track.style.width = "";
-                if (hint) hint.style.opacity = "";
-              };
-            },
-          );
-        })();
+            });
+          }
+        }
       </script>
     </div>
 
     <footer class="site-footer">
-      <a class="footer-mark" href="#" aria-label="Axial Systems, back to top">AXIAL<span> / SYSTEMS</span></a>
-      <p>Independent product engineering lab.<br />Built around clarity, structure, and useful work.</p>
-      <nav aria-label="Footer navigation"><a href="#about">Systems</a><a href="#approach">Approach</a><a href="#">Back to top ↑</a></nav>
-      <small>© 2026 Axial Systems</small>
+      <div class="footer-brand-block">
+        <a class="footer-mark" href="#top" aria-label="Axial Systems, back to top">AXIAL<span> / SYSTEMS</span></a>
+        <p>Independent product engineering lab.<br />Building systems that make the next step clearer.</p>
+      </div>
+      <div class="footer-directory">
+        <div class="footer-link-group">
+          <p class="footer-label">PRODUCTS</p>
+          <a href="#tasks">Axial Tasks <span>Current focus</span></a>
+          <a href="#about">Axial Vault <span>On the roadmap</span></a>
+          <a href="#about">Axial Flow <span>On the roadmap</span></a>
+        </div>
+        <div class="footer-link-group">
+          <p class="footer-label">EXPLORE</p>
+          <a href="#about">Systems in development</a>
+          <a href="#approach">How the pieces fit</a>
+          <a href="#axcess-hscroll">Our direction</a>
+        </div>
+        <div class="footer-status">
+          <p class="footer-label">CURRENTLY BUILDING</p>
+          <h2>Axial Tasks</h2>
+          <p>From a big goal to one clear next move.</p>
+          <a class="footer-cta" href="#tasks">Explore the current focus <span aria-hidden="true">&rarr;</span></a>
+        </div>
+      </div>
+      <div class="footer-bottomline">
+        <small>? 2026 Axial Systems</small>
+        <span>PRODUCT ENGINEERING / BUILT WITH INTENT</span>
+        <a href="#top">Back to top ?</a>
+      </div>
     </footer>
 
     <script
