@@ -177,9 +177,8 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     if (prefersReducedMotion) return;
     gsap.fromTo(
       row,
-      { autoAlpha: 0.2, x: -55, rotateY: 8 },
+      { x: -55, rotateY: 8 },
       {
-        autoAlpha: 1,
         x: 0,
         rotateY: 0,
         ease: "power2.out",
@@ -197,7 +196,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
 
   featureSteps.forEach((step, i) => {
     if (prefersReducedMotion) return;
-    gsap.set(step, { opacity: 0.3, y: 40 });
+    gsap.set(step, { y: 40 });
 
     const featureTimeline = gsap.timeline({
       scrollTrigger: {
@@ -217,7 +216,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       },
     });
 
-    featureTimeline.to(step, { opacity: 1, y: 0, duration: 1 });
+    featureTimeline.to(step, { y: 0, duration: 1 });
   });
 
   const tl = gsap.timeline({
@@ -266,39 +265,111 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     },
   });
 
-  // Pinned journey section with scrubbed timeline (no progress bar dependency)
-  const journeySection = document.querySelector(".journey-section");
-  const journeyCards = gsap.utils.toArray(".journey-card");
+}
 
-  if (journeySection && journeyCards.length) {
-    const journeyMotion = gsap.matchMedia();
+// Roadmap cards materialize from quiet floating shapes as they enter view.
+// Without motion support or IntersectionObserver, the complete content stays visible.
+const journeySection = document.querySelector(".journey-section");
+const journeyCards = Array.from(document.querySelectorAll(".journey-section .journey-card"));
+const journeyShapes = Array.from(document.querySelectorAll(".journey-section .journey-shape"));
+const journeyReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const journeyCanPin = journeySection && journeyCards.length && journeyShapes.length &&
+  !journeyReducedMotion && window.matchMedia("(min-width: 901px)").matches &&
+  typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined";
+const journeyCanObserve = typeof IntersectionObserver !== "undefined";
 
-    journeyMotion.add(
-      "(min-width: 701px) and (prefers-reduced-motion: no-preference)",
-      () => {
-        gsap.set(journeyCards, { autoAlpha: 0, y: 22 });
+if (
+  journeySection && journeyCards.length === journeyShapes.length &&
+  !journeyReducedMotion && (journeyCanPin || journeyCanObserve)
+) {
+  journeySection.classList.add("has-journey-motion");
+  const shapeTargets = journeyCards.map((card, index) => {
+    const shape = journeyShapes[index];
+    const shapeCore = shape.firstElementChild;
+    const container = card.closest(".right-content");
+    const cardBounds = card.getBoundingClientRect();
+    const containerBounds = container.getBoundingClientRect();
+    const shapeSize = shape.offsetWidth || 52;
+    const direction = index % 2 === 0 ? 1 : -1;
+    const startLeft = cardBounds.left - containerBounds.left + cardBounds.width / 2 - shapeSize / 2 + direction * 82;
+    const startTop = cardBounds.top - containerBounds.top + cardBounds.height / 2 - shapeSize / 2 - 24;
+    const targetX = -direction * 82;
+    const targetY = 24;
 
-        const journeyTL = gsap.timeline({
-          scrollTrigger: {
-            trigger: journeySection,
-            start: "top top",
-            end: "+=1650",
-            scrub: 0.65,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+    shape.style.left = `${startLeft}px`;
+    shape.style.top = `${startTop}px`;
+    shape.dataset.targetX = String(targetX);
+    shape.dataset.targetY = String(targetY);
+    shape.dataset.targetScaleX = String(cardBounds.width / shapeSize);
+    shape.dataset.targetScaleY = String(cardBounds.height / shapeSize);
+    shapeCore.style.animationDelay = `${index * -0.8}s`;
+    return { card, shape, shapeCore };
+  });
 
-        journeyCards.forEach((card, i) => {
-          journeyTL.to(
-            card,
-            { autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out" },
-            i * 0.35,
-          );
-        });
+  if (journeyCanPin) {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set(journeyCards, { opacity: 0, x: 36, y: 18, scale: 0.96, rotationY: -70 });
+
+    const journeyTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: journeySection,
+        start: "top top",
+        end: "+=1650",
+        scrub: 0.65,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
       },
-    );
+    });
+
+    shapeTargets.forEach(({ card, shape, shapeCore }, index) => {
+      const start = index * 0.62;
+      const enteringFromLeft = index === 1;
+      gsap.set(card, {
+        x: enteringFromLeft ? -36 : 36,
+        rotationY: enteringFromLeft ? 70 : -70,
+        transformOrigin: enteringFromLeft ? "right center" : "left center",
+      });
+      journeyTL.call(() => shapeCore.classList.add("is-forming"), null, start);
+      journeyTL.to(shape, {
+        x: Number(shape.dataset.targetX),
+        y: Number(shape.dataset.targetY),
+        scaleX: Number(shape.dataset.targetScaleX),
+        scaleY: Number(shape.dataset.targetScaleY),
+        rotationY: 180,
+        borderRadius: "0.3rem",
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+      }, start);
+      journeyTL.to(card, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotationY: 0,
+        duration: 0.8,
+        ease: "power2.out",
+      }, start + 0.08);
+    });
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const index = journeyCards.indexOf(entry.target);
+        const { card, shape, shapeCore } = shapeTargets[index];
+        shapeCore.classList.add("is-forming");
+        shape.animate([
+          { transform: "translate3d(0, 0, 0) scale(1) rotateY(0deg)", opacity: 0.92, borderRadius: "50%" },
+          { offset: 0.72, transform: `translate3d(${shape.dataset.targetX}px, ${shape.dataset.targetY}px, 0) scale(${shape.dataset.targetScaleX}, ${shape.dataset.targetScaleY}) rotateY(180deg)`, opacity: 0.9, borderRadius: "0.3rem" },
+          { transform: `translate3d(${shape.dataset.targetX}px, ${shape.dataset.targetY}px, 0) scale(${shape.dataset.targetScaleX}, ${shape.dataset.targetScaleY}) rotateY(180deg)`, opacity: 0, borderRadius: "0.3rem" },
+        ], { duration: 850, easing: "cubic-bezier(0.22, 0.72, 0.18, 1)", fill: "forwards" });
+        card.classList.add("is-revealed");
+        observer.unobserve(card);
+      });
+    }, { threshold: 0.35, rootMargin: "0px 0px -8% 0px" });
+
+    journeyCards.forEach((card) => observer.observe(card));
   }
 }
 

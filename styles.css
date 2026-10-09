@@ -126,19 +126,19 @@ nav ul li a:hover::before {
   cursor: pointer;
 }
 
-.cta label {
+.cta > span {
   display: none;
   cursor: pointer;
   transition: all 0.7s ease;
 }
 
-.cta ion-icon:hover + label,
+.cta ion-icon:hover + span,
 .cta:hover {
   display: flex;
 }
 
-.cta ion-icon:hover + label,
-label:hover {
+.cta ion-icon:hover + span,
+.cta > span:hover {
   display: flex;
 }
 .cta ion-icon {
@@ -159,9 +159,9 @@ label:hover {
 
 .stage {
   width: 1200px;
-  max-height: 1200px;
+  max-height: 1500px;
   perspective: 1200px;
-  overflow: hidden;
+  /* overflow: hidden; */
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
@@ -190,7 +190,7 @@ label:hover {
 .item {
   width: var(--item-width);
   /* height: var(--item-height); */
-  height:1200px;
+  /* height:1900px; */
   margin: 0 10px;
   border-radius: 16px;
   background: #222;
@@ -201,7 +201,8 @@ label:hover {
 
 .item img {
   width: 100%;
-  height: 100%;
+  /* height: x; */
+  place-self: center;
   object-fit: cover;
   border-radius: inherit;
 }
@@ -223,7 +224,7 @@ label:hover {
   color: #222222ea;
   font-family: "Manrope", system-ui, sans-serif;
   font-size: 20px;
-  font-weight: 100;
+  font-weight: 400;
   text-align: center;
 }
 
@@ -702,7 +703,7 @@ a {
   position: absolute;
   right: 10vw;
   bottom: 2.4rem;
-  color: #8a8a83;
+  color: #70706a;
   font-size: 0.7rem;
   letter-spacing: 0.13em;
 }
@@ -860,7 +861,7 @@ a {
 }
 
 .feature-step > span {
-  color: #777771;
+  color: #696963;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -887,7 +888,7 @@ a {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  color: #eae9e2;
+  color: #8f8e88;
   font-size: clamp(12rem, 30vw, 34rem);
   font-weight: 800;
   letter-spacing: -0.13em;
@@ -895,6 +896,8 @@ a {
   pointer-events: none;
   user-select: none;
 }
+
+.approach-heading > .eyebrow { color: #696963; }
 
 .approach-mark i {
   position: absolute;
@@ -1525,4 +1528,246 @@ html { scroll-snap-type: y proximity; }
     line-height: 1.65 !important;
     overflow-wrap: anywhere;
   }
+}
+
+/* Keep the contact affordance fixed in place while its label fades in. */
+.cta { position: relative; }
+.cta > span {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  z-index: 110;
+  display: block !important;
+  width: max-content;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.2rem;
+  color: #f1f0e9;
+  background: #171817;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.25rem);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+}
+.cta:hover > span,
+.cta:focus-visible > span {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.cta ion-icon {
+  flex: 0 0 auto;
+  transition: color 180ms ease, box-shadow 180ms ease;
+}
+
+/* A staggered product deck gives the pinned chapter depth while keeping each
+   roadmap item readable on wide screens and in a simple list on phones. */
+.journey-section .sticky-container {
+  grid-template-columns: minmax(15rem, 0.8fr) minmax(22rem, 1fr);
+  column-gap: clamp(3rem, 7vw, 7rem);
+  max-width: 100rem;
+  margin-inline: auto;
+}
+.journey-section .cards {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 38rem;
+  margin-left: auto;
+}
+.journey-section .journey-card,
+.journey-section .journey-card:nth-child(n) {
+  position: relative;
+  isolation: isolate;
+  min-height: 9rem;
+  box-sizing: border-box;
+  padding: 1.4rem clamp(1.25rem, 2.2vw, 2rem) !important;
+  overflow: hidden;
+  border: 1px solid #454640 !important;
+  border-radius: 0.3rem !important;
+  background: #20211f !important;
+  box-shadow: 0 1rem 2.3rem rgba(0, 0, 0, 0.16);
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+.journey-section .journey-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  width: 0.2rem;
+  background: #77786f;
+  content: "";
+}
+.journey-section .journey-card:first-child {
+  border-color: #73746a !important;
+  background: #292a26 !important;
+}
+.journey-section .journey-card:first-child::before { background: #f1f0e9; }
+.journey-section .journey-card:nth-child(2) { width: calc(100% - 1.1rem); margin-left: 1.1rem; }
+.journey-section .journey-card:nth-child(3) { width: calc(100% - 2.2rem); margin-left: 2.2rem; }
+.journey-section .journey-card .system-status,
+.journey-section .journey-card h3,
+.journey-section .journey-card p:not(.system-status) { position: relative; z-index: 1; }
+.journey-section .journey-card h3 {
+  width: fit-content;
+  margin: 0.55rem 0 0.4rem;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+}
+.journey-section .journey-card p:not(.system-status) {
+  max-width: 39ch;
+  margin: 0;
+  color: #c3c3bd;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.journey-section .journey-card .system-status {
+  color: #d0d0ca;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.journey-section .journey-card-number {
+  position: absolute;
+  top: 0.45rem;
+  right: 1rem;
+  z-index: 0;
+  color: rgba(241, 240, 233, 0.08);
+  font-size: clamp(3.6rem, 7vw, 6rem);
+  font-weight: 600;
+  letter-spacing: -0.1em;
+  line-height: 1;
+  pointer-events: none;
+}
+@media (min-width: 901px) and (max-width: 1024px) {
+  .journey-section .sticky-container {
+    grid-template-columns: minmax(13rem, 0.8fr) minmax(19rem, 1fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+    padding-inline: 7vw;
+  }
+  .journey-section .journey-card,
+  .journey-section .journey-card:nth-child(n) { min-height: 8.5rem; }
+}
+@media (max-width: 900px) {
+  .journey-section .sticky-container {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 2.5rem;
+    padding: 4.5rem 7vw;
+  }
+  .journey-section .cards { width: 100%; max-width: 48rem; margin-left: 0; }
+}
+@media (max-width: 700px) {
+  .journey-section .sticky-container {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 2.5rem;
+    padding: 4.5rem 7vw;
+  }
+  .journey-section .cards { width: 100%; max-width: none; gap: 0.85rem; }
+  .journey-section .journey-card,
+  .journey-section .journey-card:nth-child(n) {
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 1.35rem 1.25rem !important;
+  }
+  .journey-section .journey-card-number { top: 0.7rem; right: 0.8rem; font-size: 4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta > span { transition: none; }
+  .journey-section .journey-card { will-change: auto; }
+}
+
+/* Keyboard focus stays visible against both the warm light and charcoal panels. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.cta:focus-visible { border-radius: 0.2rem; }
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  padding: 0.75rem 1rem;
+  color: #171817;
+  background: #fff;
+  transform: translateY(-180%);
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+/* Each card begins as an independently drifting shape, then expands into place. */
+.journey-section .right-content { position: relative; }
+.journey-section .journey-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: none;
+  overflow: visible;
+  pointer-events: none;
+}
+.journey-section .journey-shape {
+  position: absolute;
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  border: 1px solid #87887f;
+  border-radius: 50%;
+  background: rgba(241, 240, 233, 0.11);
+  box-shadow: 0 0.6rem 2rem rgba(0, 0, 0, 0.2), inset 0 0 1rem rgba(241, 240, 233, 0.08);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+.journey-section .journey-shape:nth-child(2) { border-radius: 0.65rem; }
+.journey-section .journey-shape:nth-child(3) { border-radius: 42% 58% 55% 45%; }
+.journey-section .journey-shape > span {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid rgba(241, 240, 233, 0.66);
+  border-radius: 50%;
+  animation: journeyShapeDrift 4.8s ease-in-out infinite;
+}
+.journey-section .journey-shape:nth-child(2) > span {
+  border-radius: 0.15rem;
+  transform: rotate(35deg);
+  animation-duration: 5.6s;
+}
+.journey-section .journey-shape:nth-child(3) > span {
+  width: 1.5rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  animation-duration: 6.3s;
+}
+.journey-section .journey-shape > span.is-forming { animation-play-state: paused; }
+.journey-section.has-journey-motion .journey-card {
+  opacity: 0;
+  transform: perspective(900px) translateX(2rem) rotateY(-65deg) scale(0.96);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: opacity 240ms ease, transform 760ms cubic-bezier(0.2, 0.72, 0.2, 1);
+}
+.journey-section.has-journey-motion .journey-card:nth-child(2) {
+  transform: perspective(900px) translateX(-2rem) rotateY(65deg) scale(0.96);
+}
+.journey-section.has-journey-motion .journey-card.is-revealed {
+  opacity: 1;
+  transform: perspective(900px) translateX(0) rotateY(0) scale(1);
+}
+.journey-section.has-journey-motion .journey-shapes { display: block; }
+@keyframes journeyShapeDrift {
+  0%, 100% { transform: translate3d(-0.3rem, 0.1rem, 0) rotate(-8deg); }
+  50% { transform: translate3d(0.35rem, -0.4rem, 0) rotate(11deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-section .journey-shapes { display: none !important; }
+  .journey-section.has-journey-motion .journey-card,
+  .journey-section.has-journey-motion .journey-card:nth-child(n) {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  :where(a, button, [tabindex]):focus-visible { outline-offset: 2px; }
 }

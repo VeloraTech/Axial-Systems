@@ -15,16 +15,18 @@
   <body>
     <!-- <div class="bg"></div> -->
 
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <main id="main-content">
     <section class="hero-section" id="top">
       <header>
         <img
           src="./image_1_1770857077129-removebg-preview.png"
-          alt="logo"
+          alt="Axial Systems"
           class="logo"
         />
         <nav id="primary-navigation" aria-label="Main navigation">
           <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="#top">Home</a></li>
             <li><a href="#about">About us</a></li>
             <li><a href="#tasks">Products</a></li>
             <li><a href="#approach">Labs</a></li>
@@ -33,12 +35,12 @@
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="primary-navigation" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <button class="cta">
+        <button class="cta" type="button" aria-label="Contact us">
           <ion-icon
             name="mail-unread-outline"
-            id="mail-unread-outline"
+            aria-hidden="true" 
           ></ion-icon>
-          <label for="mail-unread-outline">CONTACT US</label>
+          <span aria-hidden="true">CONTACT US</span>
         </button>
       </header>
       <div class="body">
@@ -47,77 +49,92 @@
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400"
+                alt=""
               />
             </div>
 
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400"
+                alt=""
               />
             </div>
             <div class="item">
               <img
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400"
+                alt=""
               />
             </div>
           </div>
@@ -216,22 +233,30 @@
           <p id="description">One focused system for planning, one for project knowledge, and one for making workflows easier to follow.</p>
         </div>
         <div class="right-content">
-          <div class="cards">
-            <div class="journey-card">
+          <div class="journey-shapes" aria-hidden="true">
+            <span class="journey-shape journey-shape--one"><span></span></span>
+            <span class="journey-shape journey-shape--two"><span></span></span>
+            <span class="journey-shape journey-shape--three"><span></span></span>
+          </div>
+          <div class="cards" role="list" aria-label="Axial systems in development">
+            <article class="journey-card" role="listitem" aria-labelledby="journey-tasks-title">
               <p class="system-status">CURRENT FOCUS</p>
-              <h3>Axial Tasks</h3>
+              <h3 id="journey-tasks-title">Axial Tasks</h3>
               <p>Turn goals into priorities, milestones, and a clear next move.</p>
-            </div>
-            <div class="journey-card">
+              <span class="journey-card-number" aria-hidden="true">01</span>
+            </article>
+            <article class="journey-card" role="listitem" aria-labelledby="journey-vault-title">
               <p class="system-status">PLANNED</p>
-              <h3>Axial Vault</h3>
+              <h3 id="journey-vault-title">Axial Vault</h3>
               <p>Keep project notes and decisions close in an offline-first home for the thinking behind the work.</p>
-            </div>
-            <div class="journey-card">
+              <span class="journey-card-number" aria-hidden="true">02</span>
+            </article>
+            <article class="journey-card" role="listitem" aria-labelledby="journey-flow-title">
               <p class="system-status">PLANNED</p>
-              <h3>Axial Flow</h3>
+              <h3 id="journey-flow-title">Axial Flow</h3>
               <p>Map dependencies and handoffs so one step leads clearly to the next.</p>
-            </div>
+              <span class="journey-card-number" aria-hidden="true">03</span>
+            </article>
           </div>
         </div>
       </div>
@@ -786,6 +811,7 @@
       </script>
     </div>
 
+    </main>
     <footer class="site-footer">
       <div class="footer-brand-block">
         <a class="footer-mark" href="#top" aria-label="Axial Systems, back to top">AXIAL<span> / SYSTEMS</span></a>
