@@ -26,7 +26,7 @@
           <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#about">About us</a></li>
-            <li><a href="#about">Products</a></li>
+            <li><a href="#tasks">Products</a></li>
             <li><a href="#approach">Labs</a></li>
           </ul>
         </nav>
@@ -166,9 +166,38 @@
 
     <section class="journey-intro-text" aria-labelledby="intro-title">
       <p class="eyebrow">AXIAL SYSTEMS / PRODUCT ENGINEERING LAB</p>
-      <h1 id="intro-title">Good systems make room for good work.</h1>
-      <p class="intro-copy">Axial Systems explores the structure behind useful digital products: clear tasks, dependable workflows, and infrastructure built to support the work.</p>
+      <h1 id="intro-title">Turn scattered work into a clear next step.</h1>
+      <p class="intro-copy">Projects lose momentum when tasks, decisions, and dependencies drift apart. Axial is building focused systems that bring the work back into view.</p>
       <span class="intro-index" aria-hidden="true">01 — 03</span>
+    </section>
+    <section class="build-principles" aria-labelledby="principles-title">
+      <div class="principles-intro">
+        <p class="eyebrow">THE AXIAL POINT OF VIEW</p>
+        <h2 id="principles-title">Good tools make the work easier to see.</h2>
+        <p>Less time searching for what matters. More confidence about what to do next.</p>
+      </div>
+      <div class="principles-list">
+        <article class="principle-row"><span>01</span><div><h3>Give every goal a shape.</h3><p>Turn a big idea into priorities, tasks, and milestones people can act on.</p></div></article>
+        <article class="principle-row"><span>02</span><div><h3>Keep decisions with the work.</h3><p>Make useful context easy to find when the project moves forward.</p></div></article>
+        <article class="principle-row"><span>03</span><div><h3>Make the next step visible.</h3><p>Show how tasks connect, so handoffs and dependencies make sense.</p></div></article>
+      </div>
+    </section>
+    <section class="task-focus" id="tasks" aria-labelledby="task-focus-title">
+      <div class="task-focus-copy">
+        <p class="eyebrow">CURRENT FOCUS / AXIAL TASKS</p>
+        <h2 id="task-focus-title">Know what matters next.</h2>
+        <p>Shape a goal into clear priorities and milestones. Keep the next useful move in view as the work takes shape.</p>
+        <a class="task-focus-link" href="#about">See the systems in development <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="task-example" role="group" aria-label="Illustrative Axial Tasks project plan">
+        <div class="task-example-top"><span>AXIAL TASKS</span><span>PROJECT PLAN</span></div>
+        <div class="task-example-goal"><span>GOAL</span><h3>Bring a new idea to life</h3></div>
+        <ol class="task-example-list">
+          <li><span>01</span><span>Set the priority</span><span class="task-row-state">FOCUS</span></li>
+          <li><span>02</span><span>Mark the milestone</span><span class="task-row-state">PLAN</span></li>
+          <li><span>03</span><span>Choose the next task</span><span class="task-row-state">NEXT</span></li>
+        </ol>
+      </div>
     </section>
     <section class="journey-section" id="about">
       <div class="journey-progress-track">
@@ -179,26 +208,26 @@
           SYSTEMS IN DEVELOPMENT
         </p>
         <div class="left-content">
-          <p class="eyebrow">THE WORK, MADE TANGIBLE</p>
+          <p class="eyebrow">SYSTEMS IN DEVELOPMENT</p>
           <h2 id="title">Tools for clearer execution.</h2>
-          <p id="description">A growing set of systems for planning work, keeping knowledge, and connecting the steps in between.</p>
+          <p id="description">One focused system for planning, one for project knowledge, and one for making workflows easier to follow.</p>
         </div>
         <div class="right-content">
           <div class="cards">
             <div class="journey-card">
               <p class="system-status">CURRENT FOCUS</p>
               <h3>Axial Tasks</h3>
-              <p>A structured task engine for priorities, milestones, and a clearer view of what comes next.</p>
+              <p>Turn goals into priorities, milestones, and a clear next move.</p>
             </div>
             <div class="journey-card">
               <p class="system-status">PLANNED</p>
               <h3>Axial Vault</h3>
-              <p>An offline-first home for notes and ideas, designed around private storage and useful retrieval.</p>
+              <p>Keep project notes and decisions close in an offline-first home for the thinking behind the work.</p>
             </div>
             <div class="journey-card">
               <p class="system-status">PLANNED</p>
               <h3>Axial Flow</h3>
-              <p>A lightweight way to map task dependencies and make a process easier to follow.</p>
+              <p>Map dependencies and handoffs so one step leads clearly to the next.</p>
             </div>
           </div>
         </div>
@@ -209,6 +238,19 @@
         <div class="steps"></div>
       </div>
     </section>
+    <section class="feature-scroll" id="approach" aria-labelledby="approach-title">
+      <div class="approach-heading">
+        <p class="eyebrow">HOW THE PIECES FIT</p>
+        <h2 id="approach-title">Make the next step easier to see.</h2>
+      </div>
+      <div class="approach-steps">
+        <article class="feature-step"><span>01</span><h3>Give the work structure</h3><p>Turn a goal into priorities and milestones you can act on.</p></article>
+        <article class="feature-step"><span>02</span><h3>Keep knowledge close</h3><p>Keep the decisions that shape a project close to the work.</p></article>
+        <article class="feature-step"><span>03</span><h3>Connect the dependencies</h3><p>See what depends on what before a handoff slows the work down.</p></article>
+      </div>
+      <div class="approach-mark" aria-hidden="true"><span>AX</span><i></i><i></i><i></i></div>
+    </section>
+
     <div id="axcess-hscroll">
       <style>
         /* All styles scoped to #axcess-hscroll — safe to drop anywhere */
@@ -751,7 +793,7 @@
               track.style.width = N * 100 + "vw";
               const getTravelDist = () => window.innerWidth * (N - 1);
 
-              gsap.to(track, {
+              const horizontalTween = gsap.to(track, {
                 x: () => -getTravelDist(),
                 ease: "none",
                 scrollTrigger: {
@@ -778,6 +820,32 @@
                 },
               });
 
+              panels.forEach((panel) => {
+                const visual = panel.querySelector(".ahs-icon-wrap");
+                if (!visual) return;
+                gsap.fromTo(
+                  visual,
+                  { autoAlpha: 0, x: 100, y: 58, rotateY: -24, rotateZ: -8, scale: 0.72 },
+                  {
+                    autoAlpha: 1,
+                    x: 0,
+                    y: 0,
+                    rotateY: 0,
+                    rotateZ: 0,
+                    scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                      trigger: panel,
+                      containerAnimation: horizontalTween,
+                      start: "left 78%",
+                      end: "center center",
+                      scrub: 0.65,
+                      invalidateOnRefresh: true,
+                    },
+                  },
+                );
+              });
+
               return () => {
                 track.style.width = "";
                 if (hint) hint.style.opacity = "";
@@ -787,18 +855,6 @@
         })();
       </script>
     </div>
-    <section class="feature-scroll" id="approach" aria-labelledby="approach-title">
-      <div class="approach-heading">
-        <p class="eyebrow">HOW THE PIECES FIT</p>
-        <h2 id="approach-title">A clearer line from idea to execution.</h2>
-      </div>
-      <div class="approach-steps">
-        <article class="feature-step"><span>01</span><h3>Give the work structure</h3><p>Break a goal into priorities and milestones that can be understood and acted on.</p></article>
-        <article class="feature-step"><span>02</span><h3>Keep knowledge close</h3><p>Make the notes and decisions around a project easier to keep and find.</p></article>
-        <article class="feature-step"><span>03</span><h3>Connect the dependencies</h3><p>Show how one step leads to another, so progress is easier to navigate.</p></article>
-      </div>
-      <div class="approach-mark" aria-hidden="true"><span>AX</span><i></i><i></i><i></i></div>
-    </section>
 
     <footer class="site-footer">
       <a class="footer-mark" href="#" aria-label="Axial Systems, back to top">AXIAL<span> / SYSTEMS</span></a>

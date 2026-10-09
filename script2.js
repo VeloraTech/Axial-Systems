@@ -30,6 +30,54 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       .to(section, { duration: 1 })
       .to(section, { duration: 0.5 });
 
+    if (!prefersReducedMotion) {
+      const heroStage = section.querySelector(".stage");
+      const heroCopy = section.querySelector(".hero-text");
+      if (heroStage) {
+        gsap.fromTo(
+          heroStage,
+          { scale: 1, y: 0 },
+          {
+            scale: 1.14,
+            y: -24,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: "center top",
+              scrub: 0.8,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+        gsap.to(heroStage, {
+          scale: 0.88,
+          y: -68,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "center top",
+            end: "bottom top",
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
+      if (heroCopy) {
+        gsap.to(heroCopy, {
+          y: -36,
+          autoAlpha: 0.45,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "center top",
+            end: "bottom top",
+            scrub: 0.7,
+          },
+        });
+      }
+    }
+
     if (bottomBlinder) {
       heroTimeline.to(
         bottomBlinder,
@@ -100,6 +148,52 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
       },
     );
   }
+
+  const taskExample = document.querySelector(".task-example");
+  if (taskExample && !prefersReducedMotion) {
+    gsap.fromTo(
+      taskExample,
+      { autoAlpha: 0, x: 90, y: 35, rotateY: -14, scale: 0.88 },
+      {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        rotateY: -4,
+        scale: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: taskExample,
+          start: "top 82%",
+          end: "top 38%",
+          scrub: 0.7,
+          invalidateOnRefresh: true,
+        },
+      },
+    );
+  }
+
+  const principleRows = gsap.utils.toArray(".principle-row");
+  principleRows.forEach((row, index) => {
+    if (prefersReducedMotion) return;
+    gsap.fromTo(
+      row,
+      { autoAlpha: 0.2, x: -55, rotateY: 8 },
+      {
+        autoAlpha: 1,
+        x: 0,
+        rotateY: 0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: row,
+          start: "top 84%",
+          end: "top 54%",
+          scrub: 0.65,
+          invalidateOnRefresh: true,
+        },
+        delay: index * 0.04,
+      },
+    );
+  });
 
   featureSteps.forEach((step, i) => {
     if (prefersReducedMotion) return;
@@ -188,7 +282,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
           scrollTrigger: {
             trigger: journeySection,
             start: "top top",
-            end: "+=1450",
+            end: "+=1650",
             scrub: 0.65,
             pin: true,
             anticipatePin: 1,
